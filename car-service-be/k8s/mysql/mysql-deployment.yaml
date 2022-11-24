@@ -1,43 +1,15 @@
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: mysql-pv-volume
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 20Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "~/.kuberneties-data/mysql/"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-pv-claim
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 20Gi
-
-
----
-
-apiVersion: v1
 kind: Service
 metadata:
   name: mysql
 spec:
-  ports:
-    - port: 3306
   selector:
     app: mysql
-  clusterIP: None
+  type: ClusterIP
+  ports:
+    - port: 3306
+      targetPort: 3306
+#      protocol: TCP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -55,11 +27,17 @@ spec:
         app: mysql
     spec:
       containers:
-        - image: mysql:5.6
+        - image: mysql/mysql-server:latest
           name: mysql
           env:
             # Use secret in real usage
-            - name: user
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+            - name: MYSQL_DATABASE
+              value: diploma_project
+            - name: MYSQL_USER
+              value: user
+            - name: MYSQL_PASSWORD
               value: "1234"
           ports:
             - containerPort: 3306

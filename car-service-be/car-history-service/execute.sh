@@ -6,8 +6,8 @@ docker rm -f "$(serviceName)"
 
 ./mvn clean
 
-# Build .jar
-./mvnw package -Dmaven.test.skip=true
+# Build .jar -Dmaven.test.skip=true
+./mvnw package
 
 # TODO fix the naming
 file="$(pwd)/target/$serviceName-0.0.1-SNAPSHOT.jar"

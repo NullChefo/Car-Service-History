@@ -3,7 +3,8 @@ kind: ConfigMap
 metadata:
   name: auth-configmap
 data:
-  MYSQL_HOST: host.minikube.internal
-  MYSQL_USER: auth_user
-  MYSQL_DB: auth
-  MYSQL_PORT: "3306"
+
+  SPRING_PROFILES_ACTIVE: kubernetes
+
+  SERVER_PORT: "8086"
+  SPRING_ZIPKIN_BASE-URL: "http://zipkin:9411"

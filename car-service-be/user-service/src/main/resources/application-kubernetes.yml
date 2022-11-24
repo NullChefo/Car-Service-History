@@ -1,5 +1,5 @@
 server:
-  port: ${SERVICE_PORT}
+  port: 8082
   shutdown: graceful
   error:
     include-message: always
@@ -9,38 +9,56 @@ spring:
   application:
     name: user-service
   datasource:
-    url: jdbc:mysql://${DB_HOST}/${DB_NAME}?createDatabaseIfNotExist=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url:
+    username:
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
   rabbitmq:
-    addresses: ${RABBITMQ_ADDRESS}
-    port: ${RABBITMQ_PORT}
-    username: ${RABBITMQ_USERNAME}
-    password: ${RABBITMQ_PASSWORD}
+    addresses:
+    port:
+    username:
+    password:
    # host: 127.0.0.1
+  zipkin:
+    enabled: true
+    base-url:
+  sleuth:
+    enabled: true
+    sampler:
+      probability: 1.0
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
-  cloud:
-    kubernetes:
-      discovery:
-        # TODO change false
-        all-namespaces: true
-      loadbalancer:
-        mode: service
-        enabled: true
-      enabled: true
-    loadbalancer:
-      ribbon:
-        enabled: false
+#  cloud:
+#    kubernetes:
+#      discovery:
+#        # TODO change false
+#        all-namespaces: true
+#      loadbalancer:
+#        mode: service
+#        enabled: true
+#      enabled: true
+#    loadbalancer:
+#      ribbon:
+#        enabled: false
+
+
+
 management:
   endpoints:
     web:
       exposure:
-        # TODO *
-        include: prometheus
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"
+
 
 rabbitmq:
   queue:

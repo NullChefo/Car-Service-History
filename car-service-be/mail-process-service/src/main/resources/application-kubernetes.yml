@@ -1,45 +1,51 @@
 server:
   port: 8084
+  shutdown: graceful
   error:
     include-message: always
+    include-exception: true # TODO make it false
+
 spring:
   application:
     name: mail-process-service
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/diploma_project?createDatabaseIfNotExist=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
-    username: user
-    password: 1234
+    url:
+    username:
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
   rabbitmq:
-    addresses: localhost
-    port: 15672
-    password: password
-    username: user
-  zipkin:
-    base-url: http://localhost:9411
-  sleuth:
-    sampler:
-      probability: 1.0
-  cloud:
-    kubernetes:
-      loadbalancer:
-        enabled: true
-        mode: service
-      enabled: true
-    loadbalancer:
-      ribbon:
-        enabled: false
+    addresses:
+    port:
+    username:
+    password:
+   # host: 127.0.0.1
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update # TODO make it update when "ready"
+      ddl-auto: update
+  # TODO make it work in kubernetes
+  zipkin:
+    enabled: true
+    base-url:
+  sleuth:
+    enabled: true
+    sampler:
+      probability: 1.0
 
 management:
   endpoints:
     web:
       exposure:
-        # TODO *
-        include: prometheus
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"
+
 
 rabbitmq:
   queue:

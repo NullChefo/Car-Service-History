@@ -3,6 +3,8 @@ kind: ConfigMap
 metadata:
   name: mail-process-configmap
 data:
-  #TODO add
-  MP3_QUEUE: "mp3"
-  VIDEO_QUEUE: "video"
+
+  SPRING_PROFILES_ACTIVE: kubernetes
+
+  SERVER_PORT: "8084"
+  SPRING_ZIPKIN_BASE-URL: "http://zipkin:9411"

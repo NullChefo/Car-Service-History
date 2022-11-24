@@ -19,20 +19,19 @@ spring:
     username: user
     password: password
    # host: 127.0.0.1
+  zipkin:
+    enabled: true
+    base-url: http://localhost:9411
+  sleuth:
+    enabled: true
+    sampler:
+      probability: 1.0
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
       # TODO read more https://www.springcloud.io/post/2022-05/spring-cloud-kubernetes/#gsc.tab=0
-  cloud:
-    kubernetes:
-      loadbalancer:
-        enabled: false
-        mode: service
-      enabled: false
-    loadbalancer:
-      ribbon:
-        enabled: false
+
 management:
   endpoints:
     web:

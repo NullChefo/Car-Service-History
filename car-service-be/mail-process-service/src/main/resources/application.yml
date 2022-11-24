@@ -1,7 +1,10 @@
 server:
   port: 8084
+  shutdown: graceful
   error:
     include-message: always
+    include-exception: true # TODO make it false
+
 spring:
   application:
     name: mail-process-service
@@ -20,15 +23,6 @@ spring:
   sleuth:
     sampler:
       probability: 1.0
-  cloud:
-    kubernetes:
-      loadbalancer:
-        enabled: false
-        mode: service
-      enabled: false
-    loadbalancer:
-      ribbon:
-        enabled: false
   jpa:
     show-sql: true
     hibernate:

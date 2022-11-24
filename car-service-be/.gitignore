@@ -8,7 +8,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-k8s/user
+k8s/mail-send/secret-mail-credentials.yaml
 
 ### STS ###
 .apt_generated
