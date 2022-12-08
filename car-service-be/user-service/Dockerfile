@@ -2,12 +2,36 @@ ARG NAME=user-service-0.0.1-SNAPSHOT.jar
 ARG PORT=8082
 
 
+FROM maven:3.8-eclipse-temurin-19 AS builder
+
+# add pom.xml and source code
+ADD ./pom.xml pom.xml
+
+
+# package jar
+
+
+RUN mvn dependency:go-offline -B
+
+# copy other files
+ADD ./src src/
+
+
+# TODO remove skip test
+RUN mvn -Dmaven.test.skip=true clean package
+
+
+
 FROM azul/zulu-openjdk-alpine:19-latest as deps
 
 ARG NAME
 
+COPY --from=builder target/*.jar /app/app.jar
+
+
 # Identify dependencies
-COPY ./target/${NAME} /app/app.jar
+# COPY ./target/*.jar  /app/app.jar
+
 RUN mkdir /app/unpacked && \
     cd /app/unpacked && \
     unzip ../app.jar && \
@@ -62,7 +86,9 @@ RUN mkdir /app && \
     chown -R $APPLICATION_USER /app
 
 USER 1000
-COPY --chown=1000:1000 ./target/${NAME} /app/app.jar
+#COPY --chown=1000:1000 ./target/*.jar /app/app.jar
+COPY --chown=1000:1000 --from=builder target/*.jar /app/app.jar
+
 WORKDIR /app
 
 
